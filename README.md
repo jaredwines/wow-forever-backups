@@ -1,6 +1,6 @@
 # WoW Forever Backups
 
-A personal, versioned backup repository for **World of Warcraft: Forever**, using **WoWUp** and Blizzard's built-in **Edit Mode UI layout exports**.
+A personal, versioned backup repository for **World of Warcraft: Forever**, using **WoWUp** settings backups, **WoWUp addon-list exports**, and Blizzard's built-in **Edit Mode UI layout exports**.
 
 Backups are organized separately for three devices:
 
@@ -9,6 +9,9 @@ Backups are organized separately for three devices:
 - **Steam Deck** — SteamOS
 
 Git records changes over time, allowing you to recover an earlier backup. Backups are created manually; settings are **not automatically synchronized** between devices.
+
+> [!WARNING]
+> **Protect your data:** This repository was public when last checked. WoWUp settings archives can contain account identifiers, character information, or addon configuration. Change the repository visibility to **Private** before uploading more backups.
 
 ## What Gets Backed Up?
 
@@ -23,6 +26,12 @@ WoWUp's **Interface Settings Backup** feature saves the game's `WTF` folder, whi
 - Other locally stored game configuration
 
 **Important:** WoWUp's settings backup does **not** include the installed addon files themselves. Reinstall missing addons through WoWUp before restoring their settings.
+
+### WoWUp addon-list exports
+
+WoWUp's **Import / Export Addons** feature produces a text string listing installed addons. This is useful for reinstalling the same addon collection after rebuilding a computer. It does not contain addon settings or the addon files themselves.
+
+The repository already contains a Mac addon-list export at `mac/wowup-backup/Addons Backup/addons-import-text.txt`.
 
 ### Blizzard UI layout backups
 
@@ -39,17 +48,27 @@ wow-forever-backups/
 │   │   └── wtf_backups/
 │   │       └── <client-id>/
 │   │           └── wtf_*.zip
-│   └── ui-layouts-backup/
+│   └── ui-layouts-backup/      # Empty placeholder
 ├── mac/
 │   ├── wowup-backup/
+│   │   ├── Addons Backup/
+│   │   │   └── addons-import-text.txt
+│   │   └── Interface Settings Backup/
+│   │       └── wtf_*.zip
 │   └── ui-layouts-backup/
-├── steam-deck/
+│       └── mac-ui.txt
+├── steamdeck/                  # Active Steam Deck backups
 │   ├── wowup-backup/
+│   │   └── wtf_backups/
+│   │       └── <client-id>/
+│   │           └── wtf_*.zip
 │   └── ui-layouts-backup/
-└── blastoise/                  # Existing placeholder
+│       └── steamdeck-ui.txt
+├── steam-deck/                 # Existing empty placeholder
+└── blastoise/                  # Existing empty placeholder
 ```
 
-The **`pc/` directory currently contains Blastoise's backups**. The separate `blastoise/` directory is a placeholder; use `pc/` consistently to avoid splitting Windows backups between two locations.
+Use **`pc/` for Blastoise** and **`steamdeck/` for Steam Deck**. The similarly named `blastoise/` and `steam-deck/` folders are currently placeholders; don't split active backups across both spellings.
 
 Empty directories are preserved with `.gitkeep` files.
 
@@ -63,21 +82,28 @@ Repeat these steps on each computer you want to back up.
 2. Open **Esc → Edit Mode**.
 3. Select the layout you want to save.
 4. Use **Share / Export** to copy the layout string.
-5. Paste the complete string into a plain-text file, such as `2026-11-08-hunter-ui.txt`.
+5. Paste the complete string into a plain-text file, such as `mac-ui.txt`, `steamdeck-ui.txt`, or a dated layout name.
 6. Save it in that device's `ui-layouts-backup/` directory.
 7. Log out and **close WoW Forever**.
 
 If you use different keyboard-and-mouse and gamepad layouts, export them into separately named text files.
 
-### 2. Create a WoWUp backup
+### 2. Export your addon list with WoWUp
+
+1. In WoWUp, select **World of Warcraft: Forever**.
+2. Open **My Addons → Import / Export Addons** and select **Export**.
+3. Copy the addon string to a plain-text file under that device's `wowup-backup/` folder. On Mac, the existing location is `Addons Backup/addons-import-text.txt`.
+4. Update the export when you add or remove addons.
+
+### 3. Create a WoWUp settings backup
 
 1. Open **WoWUp** and select **World of Warcraft: Forever**.
 2. Go to **My Addons → Interface Settings Backup**.
 3. Select **Create Backup**, then **Show Folder**.
-4. Copy the new backup into that device's `wowup-backup/` directory.
+4. Copy the new backup into that device's `wowup-backup/` directory. Keep the existing device-specific subfolder arrangement.
 5. Keep the original backup filename and any necessary WoWUp folder structure. Leave the original local backup in place.
 
-### 3. Commit and push to GitHub
+### 4. Commit and push to GitHub
 
 Pull the latest repository changes **before** copying in new backups. Then, from the root of your local repository, stage the appropriate device directory.
 
@@ -100,7 +126,7 @@ git push
 **Steam Deck (Desktop Mode terminal):**
 
 ```bash
-git add steam-deck/
+git add steamdeck/
 git commit -m "Backup WoW Forever Steam Deck settings"
 git push
 ```
@@ -118,7 +144,7 @@ If your Git working directory also lives inside **Seafile**, avoid editing it on
 5. In WoWUp, select **Interface Settings Backup → Show Folder**.
 6. Place the downloaded backup in the appropriate WoWUp backup directory.
 7. Reopen the backup dialog if needed, select the backup, and **Apply** it.
-8. Reinstall any missing addons through WoWUp.
+8. Reinstall any missing addons through WoWUp. If you saved an addon-list text export, paste it into **My Addons → Import / Export Addons → Import**, then install the listed addons.
 9. Launch WoW Forever and verify your settings.
 
 ### Restore a Blizzard UI layout
@@ -144,7 +170,7 @@ Keep older backups so previous versions remain recoverable. Periodically test th
 
 - Backup creation and Git uploads are **manual**.
 - This repository does **not** automatically sync settings between devices.
-- Installed addon files and Steam Input controller mappings are **not** included.
+- Addon-list exports record what to install, not the installed files. Steam Input controller mappings are **not** included.
 - Repeated ZIP backups can make Git history grow quickly. GitHub blocks regular Git files larger than **100 MiB**; consider Release attachments if archives become too large.
 - WoWUp backups can contain account identifiers, character names, or sensitive addon data. **Keep the GitHub repository private**, use two-factor authentication, and never commit passwords, tokens, or private SSH keys.
 
@@ -152,6 +178,7 @@ Keep older backups so previous versions remain recoverable. Periodically test th
 
 - [WoWUp](https://wowup.io/)
 - [WoWUp — Interface settings backups](https://wowup.io/guide/my-addons/addon-settings)
+- [WoWUp — Import and export addon lists](https://wowup.io/guide/my-addons/addon-import)
 - [WoWUp — Game clients](https://wowup.io/guide/options/wow-clients)
 - [Blizzard — Updated UI and HUD / Edit Mode](https://worldofwarcraft.blizzard.com/en-us/news/23837944)
 - [GitHub — About large files](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github)
