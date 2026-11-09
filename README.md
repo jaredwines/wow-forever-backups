@@ -4,7 +4,7 @@ A personal, versioned backup repository for **World of Warcraft: Forever**, usin
 
 Backups are organized separately for three devices:
 
-- **PC (Blastoise)** — Windows 11
+- **PC** — Windows 11
 - **Mac** — macOS
 - **Steam Deck** — SteamOS
 
