@@ -31,8 +31,6 @@ WoWUp's **Interface Settings Backup** feature saves the game's `WTF` folder, whi
 
 WoWUp's **Import / Export Addons** feature produces a text string listing installed addons. This is useful for reinstalling the same addon collection after rebuilding a computer. It does not contain addon settings or the addon files themselves.
 
-The repository already contains a Mac addon-list export at `mac/wowup-backup/Addons Backup/addons-import-text.txt`.
-
 ### Blizzard UI layout backups
 
 Blizzard's **Edit Mode** can export a UI layout as a text string. Saving that string lets you import the layout again later, including when some layout information is stored outside the local `WTF` folder.
@@ -43,12 +41,13 @@ UI strings do **not** contain your complete addon settings, macros, keybindings,
 
 ```text
 wow-forever-backups/
-├── pc/                         # Blastoise (Windows)
+├── pc/                         
 │   ├── wowup-backup/
 │   │   └── wtf_backups/
 │   │       └── <client-id>/
 │   │           └── wtf_*.zip
-│   └── ui-layouts-backup/      # Empty placeholder
+│   └── ui-layouts-backup/
+│       └── pc-ui.txt      
 ├── mac/
 │   ├── wowup-backup/
 │   │   ├── Addons Backup/
@@ -57,15 +56,14 @@ wow-forever-backups/
 │   │       └── wtf_*.zip
 │   └── ui-layouts-backup/
 │       └── mac-ui.txt
-├── steamdeck/                  # Active Steam Deck backups
-│   ├── wowup-backup/
-│   │   └── wtf_backups/
-│   │       └── <client-id>/
-│   │           └── wtf_*.zip
-│   └── ui-layouts-backup/
-│       └── steamdeck-ui.txt
-├── steam-deck/                 # Existing empty placeholder
-└── blastoise/                  # Existing empty placeholder
+└── steamdeck/                  
+    ├── wowup-backup/
+    │   └── wtf_backups/
+    │       └── <client-id>/
+    │           └── wtf_*.zip
+    └── ui-layouts-backup/
+        └── steamdeck-ui.txt
+
 ```
 
 Use **`pc/` for Blastoise** and **`steamdeck/` for Steam Deck**. The similarly named `blastoise/` and `steam-deck/` folders are currently placeholders; don't split active backups across both spellings.
